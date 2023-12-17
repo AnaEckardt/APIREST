@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import com.example.APIRest.entidade.Livros;
 import com.example.APIRest.repositorio.LivrosRepositorio;
 
 @RestController
-@RequestMapping ("/Livros")
+@RequestMapping ("/livros")
 @CrossOrigin
 public class LivrosController {
 	@Autowired
@@ -30,7 +31,7 @@ public class LivrosController {
 		return ResponseEntity.status(HttpStatus.OK).body(repo.findAll());
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Livros> getLivrosPorId(@PathVariable("id") Long id){
 		Optional<Livros> opLivros = repo.findById(id);
 		try {
@@ -48,9 +49,9 @@ public class LivrosController {
 	}
 
 
-	@PutMapping("/{idLivros}")
-	public ResponseEntity<Livros> alterarLivros (@PathVariable("idLivros") Long idLivros, @RequestBody Livros livro){
-		Optional<Livros> opLivros = repo.findById(idLivros);
+	@PutMapping
+	public ResponseEntity<Livros> alterarLivros (@RequestBody Livros livro){
+		Optional<Livros> opLivros = repo.findById(livro.getId());
 		try {
 			Livros lv = opLivros.get();
 			lv.setTitulo(livro.getTitulo());
@@ -64,5 +65,19 @@ public class LivrosController {
 		}
 	}
 	
+		
 	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Livros> excluirLivro(@PathVariable("id") Long id){
+		Optional<Livros> opLivros = repo.findById(id);
+		try {
+			Livros lv = opLivros.get();
+			repo.delete(lv);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+	}
+			
 }
