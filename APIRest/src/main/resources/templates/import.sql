@@ -1,0 +1,3 @@
+--insert into Livros(titulo, autor, editora, ano)values('O Pequeno Príncipe', 'João', 'Guanabara', '1700');
+--insert into Livros(titulo, autor, editora, ano)values('O trigre e o dragão', 'Maria', 'Litoral', '1800');
+--insert into Livros(titulo, autor, editora, ano)values('O rei Arthur', 'Arthur', 'Espinosa', '1500');
